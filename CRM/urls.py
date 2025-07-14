@@ -21,7 +21,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_view),
-    path('auth/', include('users.urls'))
+    path('auth/', include('users.urls')),
+    path('CRManager/', include('CRManager.urls', namespace='crmanager'))
 ]
 
 #python manage.py runserver

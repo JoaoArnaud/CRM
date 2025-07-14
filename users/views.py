@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -19,7 +19,7 @@ def register(request):
             return HttpResponse('Já existe um usuárico com esse e-mail!')
         
         user = User.objects.create_user(username=username, email=email, password=password)
-        user.saver()
+        user.save()
 
         return HttpResponse('Usuário cadastrado com sucesso!')
 
@@ -27,16 +27,22 @@ def login(request):
     if request.method == "GET":
         return render(request, 'login.html')
     else:
-         email = request.POST.get('email')
-         password = request.POST.get('password')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-         user = authenticate(email=email, password=password)
+        # 1. Tentar encontrar o usuário pelo e-mail
+        user_obj = User.objects.filter(email=email).first()
 
-         if user:
-             lg(request, user)
-             return HttpResponse('Autenticado')
-         else:
-             return HttpResponse('Email ou senha invalidos')
-        
-# na hora de crar o CRM eu crio um: if request.user.is_authenticated: return CRM else: vc precisa logar
-#decorar a função da pagina com @login_required(login_url='/auth/login/')
+        if user_obj:
+            # 2. Se o usuário for encontrado pelo e-mail, tentar autenticar usando o username e a senha
+            user = authenticate(request, username=user_obj.username, password=password)
+            
+            if user:
+                lg(request, user)
+                return redirect('crmanager:home') 
+            else:
+                # Se o usuário existe mas a senha está incorreta
+                return HttpResponse('Email ou senha invalidos')
+        else:
+            # Se nenhum usuário foi encontrado com o e-mail fornecido
+            return HttpResponse('Email ou senha invalidos')
