@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def index_view(request):
-    return HttpResponse("<h1>Bem vindo!</h1>")
+    if request.method == "GET":
+        return render(request, 'home.html')
