@@ -20,7 +20,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index_view)
+    path('', views.index_view),
+    path('auth/', include('users.urls'))
 ]
 
 #python manage.py runserver
