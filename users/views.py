@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as lg
-# Create your views here.
+from django.contrib.auth import login as lg, logout as lt
+from django.contrib import messages
 
 def register(request):
     if request.method == "GET":
@@ -46,3 +46,8 @@ def login(request):
         else:
             # Se nenhum usuário foi encontrado com o e-mail fornecido
             return HttpResponse('Email ou senha invalidos')
+        
+def logout(request):
+    lt(request)
+    messages.info(request, "Você foi desconectado com sucesso!")
+    return redirect('login')
