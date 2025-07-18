@@ -27,3 +27,4 @@ urlpatterns = [
 
 #python manage.py runserver
 #python manage.py startapp ...
+#.\venv\Scripts\Activate.ps1
