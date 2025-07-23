@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leads - CRManager</title>
+    <title>Detalhes do Lead - CRManager</title>
     <style>
+        /* Seus estilos CSS permanecem os mesmos */
         .flex {
             display: flex;
         }
@@ -21,14 +22,30 @@
     <button><a href="{% url 'crmanager:home' %}">Home</a></button>
     <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
     <br>
+
     <h2>{{ lead.name }}<br><i>{{ lead.email }}</i></h2>
-    {% if lead.description %}
-        <p><b>Descrição: </b><br>{{lead.description}}</p>
+
+    {% if lead.phone %}
+        <p><b>Telefone: </b><br>{{ lead.phone }}</p>
     {% endif %}
-    <p><b>Status: </b><br>{{lead.get_status_display}}</p>
-    <p><b>Prioridade: </b><br>{{lead.get_priority_display}}</p>
-    <p><b>Data e hora de criação: </b><br>{{lead.created_at}}</p>
-    <p><b>Última modificação: </b><br>{{lead.modified_at}}</p>
-        <button><a href="{%url 'crmanager:leads_delete' lead.id %}">Excluir</a></button>
-        <button><a href="{%url 'crmanager:leads_edit' lead.id %}">Editar</a></button>
+
+    {% if lead.description %}
+        <p><b>Descrição: </b><br>{{ lead.description }}</p>
+    {% endif %}
+
+    <p><b>Status: </b><br>{{ lead.get_status_display }}</p>
+    <p><b>Prioridade: </b><br>{{ lead.get_priority_display }}</p>
+
+    <p><b>Origem: </b><br>{{ lead.get_source_display }}</p>
+
+    {% if lead.service_type %}
+        <p><b>Tipo de Serviço: </b><br>{{ lead.get_service_type_display }}</p>
+    {% endif %}
+
+    <p><b>Data e hora de criação: </b><br>{{ lead.created_at }}</p>
+    <p><b>Última modificação: </b><br>{{ lead.modified_at }}</p>
+
+    <button><a href="{% url 'crmanager:leads_delete' lead.id %}">Excluir</a></button>
+    <button><a href="{% url 'crmanager:leads_edit' lead.id %}">Editar</a></button>
+</body>
 </html>

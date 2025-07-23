@@ -20,7 +20,7 @@ def register(request):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
-        return HttpResponse('Usuário cadastrado com sucesso!')
+        return redirect('crmanager:home') 
 
 def login(request):
     if request.method == "GET":
