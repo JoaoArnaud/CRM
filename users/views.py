@@ -3,7 +3,6 @@ from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as lg, logout as lt
-from django.contrib import messages
 
 def register(request):
     if request.method == "GET":
@@ -49,5 +48,4 @@ def login(request):
         
 def logout(request):
     lt(request)
-    messages.info(request, "Você foi desconectado com sucesso!")
     return redirect('login')

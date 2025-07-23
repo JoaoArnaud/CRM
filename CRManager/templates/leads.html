@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads - CRManager</title>
+    <style>
+        .flex {
+            display: flex;
+        }
+        .justify-between {
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        .flex p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <button><a href="{% url 'crmanager:home' %}">Home</a></button>
+    <button><a href="{% url 'crmanager:add_lead' %}">Nova Lead</a></button>
+    <h1>Lista de Leads</h1>
+    {% if messages %}
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+    {% endif %}
+    <div class="flex justify-between">
+        <p>Nome:</p>
+        <p>Prioridade:</p>
+        <p>Status:</p>
+    </div>
+    {% for lead in leads %}
+        <div class="flex justify-between">
+            <p>
+                <a href="{% url 'crmanager:leads_detail' lead.id %}">{{ lead.name }}</a>
+            </p>
+            <p>{{ lead.get_priority_display }}</p>
+            <p>{{ lead.get_status_display }}</p>
+        </div>
+    {% empty %}
+        <p style="padding: 15px; text-align: center;">Nenhum lead encontrado.</p>
+    {% endfor %}
+</body>
+</html>

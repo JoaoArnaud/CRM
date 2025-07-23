@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads - CRManager</title>
+    <style>
+        .flex {
+            display: flex;
+        }
+        .justify-between {
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        .flex p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <button><a href="{% url 'crmanager:home' %}">Home</a></button>
+    <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
+    <br>
+    <h2>{{ lead.name }}<br><i>{{ lead.email }}</i></h2>
+    {% if lead.description %}
+        <p><b>Descrição: </b><br>{{lead.description}}</p>
+    {% endif %}
+    <p><b>Status: </b><br>{{lead.get_status_display}}</p>
+    <p><b>Prioridade: </b><br>{{lead.get_priority_display}}</p>
+    <p><b>Data e hora de criação: </b><br>{{lead.created_at}}</p>
+    <p><b>Última modificação: </b><br>{{lead.modified_at}}</p>
+        <button><a href="{%url 'crmanager:leads_delete' lead.id %}">Excluir</a></button>
+        <button><a href="{%url 'crmanager:leads_edit' lead.id %}">Editar</a></button>
+</html>
