@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import AddLeadForm
 from .models import Lead
 
+from client.models import Client
+
 @login_required
 def leads_delete(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
@@ -44,7 +46,7 @@ def leads_detail(request, pk):
 
 @login_required
 def leads(request):
-   leads = Lead.objects.filter(created_by=request.user)
+   leads = Lead.objects.filter(created_by=request.user, converted_to_client=False)
    return render(request, 'leads.html', {
        'leads': leads
    })
@@ -68,3 +70,23 @@ def add_lead(request):
     return render(request, 'add_lead.html', {
         'form': form
    })
+
+@login_required
+def convert_to_client(request, pk):
+    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+
+    client = Client.objects.create(
+        name=lead.name,
+        email=lead.email,
+        phone=lead.phone,
+        service_type=lead.service_type,
+        description=lead.description,
+        created_by=request.user
+    )
+
+    lead.converted_to_client = True
+    lead.save()
+
+    messages.success(request, 'Lead convertida em cliente com sucesso, parabéns! 🎉')
+
+    return redirect('crmanager:leads')

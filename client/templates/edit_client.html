@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - CRManager</title>
+</head>
+<body>
+    <button><a href="{% url 'crmanager:home' %}">Home</a></button>
+    <button><a href="{% url 'client:clients' %}">Clientes</a></button>
+    <h1>Edição do cliente</h1>
+    <form method='post' action=".">{% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Salvar">
+    </form>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leads - CRManager</title>
+    <title>Clientes - CRManager</title>
     <style>
         .flex {
             display: flex;
@@ -19,29 +19,28 @@
 </head>
 <body>
     <button><a href="{% url 'crmanager:home' %}">Home</a></button>
-    <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
-    <button><a href="{% url 'crmanager:add_lead' %}">Nova Lead</a></button>
-    <h1>Lista de Leads</h1>
+    <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
+    <button><a href="{% url 'client:add_client' %}">Novo Cliente</a></button>
+    
+    <h1>Lista de Clientes</h1>
     {% if messages %}
         {% for message in messages %}
             {{message}}
         {% endfor %}
     {% endif %}
+
     <div class="flex justify-between">
         <p>Nome:</p>
-        <p>Prioridade:</p>
-        <p>Status:</p>
     </div>
-    {% for lead in leads %}
+
+    {% for client in clients %}
         <div class="flex justify-between">
             <p>
-                <a href="{% url 'crmanager:leads_detail' lead.id %}">{{ lead.name }}</a>
+                <a href="{%url 'client:clients_detail' client.id%}">{{ client.name }}</a>
             </p>
-            <p>{{ lead.get_priority_display }}</p>
-            <p>{{ lead.get_status_display }}</p>
         </div>
     {% empty %}
-        <p style="padding: 15px; text-align: center;">Nenhum lead encontrado.</p>
+        <p style="padding: 15px; text-align: center;">Nenhum cliente encontrado.</p>
     {% endfor %}
 </body>
 </html>

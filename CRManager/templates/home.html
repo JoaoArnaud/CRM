@@ -8,6 +8,7 @@
 <body>
     <button><a href="{% url 'logout' %}">Log Out</a></button>
     <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
+    <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
     <h1>Bem-vindo, {{ user.username }}!</h1>
 </body>
 </html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cliente - CRManager</title>
+    <style>
+        .flex {
+            display: flex;
+        }
+        .justify-between {
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        .flex p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação -->
+    <a href="{% url 'crmanager:home' %}"><button>Home</button></a>
+    <a href="{% url 'crmanager:leads' %}"><button>Leads</button></a>
+    <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
+
+    <h2>{{ client.name }}<br><i>{{ client.email }}</i></h2>
+
+    {% if client.phone %}
+        <p><b>Telefone:</b><br>{{ client.phone }}</p>
+    {% endif %}
+
+    <p><b>Nome da Empresa:</b><br>{{ client.company_name }}</p>
+    <p><b>CNPJ:</b><br>{{ client.cnpj }}</p>
+
+    <p><b>Descrição: </b><br>{{ client.description }}</p>
+
+    <p><b>Origem:</b><br>{{ client.get_source_display }}</p>
+
+    {% if client.service_type %}
+        <p><b>Tipo de Serviço:</b><br>{{ client.get_service_type_display }}</p>
+    {% endif %}
+
+    <p><b>Data e hora de criação:</b><br>{{ client.created_at|date:"d/m/Y H:i" }}</p>
+    <p><b>Última modificação:</b><br>{{ client.modified_at|date:"d/m/Y H:i" }}</p>
+
+    <!-- Ações -->
+    <a href="{%url 'client:clients_edit' client.id%}"><button>Editar</button></a>
+    <a href="{%url 'client:clients_delete' client.id%}"><button>Excluir</button></a>
+
+</body>
+</html>

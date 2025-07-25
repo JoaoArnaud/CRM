@@ -47,5 +47,6 @@
 
     <button><a href="{% url 'crmanager:leads_delete' lead.id %}">Excluir</a></button>
     <button><a href="{% url 'crmanager:leads_edit' lead.id %}">Editar</a></button>
+    <button><a href="{% url 'crmanager:convert_to_client' lead.id %}">Converter para cliente</a></button>
 </body>
 </html>
