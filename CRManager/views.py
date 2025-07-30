@@ -37,7 +37,15 @@ def leads_edit(request, pk):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    team = Team.objects.filter(created_by=request.user)[0]
+
+    leads = Lead.objects.filter(team=team, converted_to_client=False).order_by('-created_at')[0:5]
+    clients = Client.objects.filter(team=team).order_by('-created_at')[0:5]
+
+    return render(request, 'home.html',{
+        'leads': leads,
+        'clients': clients
+    })
 
 @login_required
 def leads_detail(request, pk):
@@ -94,5 +102,4 @@ def convert_to_client(request, pk):
     lead.save()
 
     messages.success(request, 'Lead convertida em cliente com sucesso, parabéns! 🎉')
-
     return redirect('crmanager:leads')

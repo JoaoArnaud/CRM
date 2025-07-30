@@ -4,11 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - CRManager</title>
+    <style>
+        /* Basic styling for the containers */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        /* Container for leads and clients to enable side-by-side display */
+        .content-container {
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Puts space between the items */
+            gap: 20px; /* Adds some space between the two columns */
+            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+        }
+
+        .leads, .clients {
+            flex: 1; /* Allows both divs to grow and shrink */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            min-width: 300px; /* Ensures they don't get too small */
+        }
+
+        .leads h3, .clients h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* Styling for the lead list */
+        .lead-list {
+            list-style-type: none; /* Remove default bullet points */
+            padding: 0;
+            margin: 0;
+        }
+
+        .lead-list li {
+            background-color: #f9f9f9;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #eee;
+        }
+
+        .lead-list li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .lead-list li a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <button><a href="{% url 'logout' %}">Log Out</a></button>
     <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
     <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
     <h1>Bem-vindo, {{ user.username }}!</h1>
+
+    <div class="content-container">
+        <div class="leads">
+            <h3>Leads recentes</h3>
+            <div class="lead-list">
+                {%for lead in leads%}
+                <li>
+                    {{lead.name}}
+                    <a href="{% url 'crmanager:leads_detail' lead.pk %}">Mais detalhes...</a>
+                </li>
+                {%endfor%}
+            </div>
+        </div>
+
+        <div class="clients">
+            <h3>Clientes recentes</h3>
+            <div class="lead-list">
+                {%for client in clients%}
+                <li>
+                    {{client.name}}
+                    <a href="{% url 'client:clients_detail' client.pk %}">Mais detalhes...</a>
+                </li>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
