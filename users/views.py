@@ -3,7 +3,8 @@ from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as lg, logout as lt
-from django.contrib.auth.decorators import login_required
+
+from team.models import Team
 
 def register(request):
     if request.method == "GET":
@@ -20,6 +21,10 @@ def register(request):
         
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
+
+        team = Team.objects.create(name='Nome do time', created_by=request.user)
+        team.members.add(request.user)
+        team.save()
 
         return redirect('crmanager:home') 
 
