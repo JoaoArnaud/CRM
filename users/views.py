@@ -3,6 +3,7 @@ from django.http.response import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as lg, logout as lt
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == "GET":

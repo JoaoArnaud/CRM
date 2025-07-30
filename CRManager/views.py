@@ -103,3 +103,10 @@ def convert_to_client(request, pk):
 
     messages.success(request, 'Lead convertida em cliente com sucesso, parabéns! 🎉')
     return redirect('crmanager:leads')
+
+@login_required
+def myaccount(request):
+    team = Team.objects.filter(created_by=request.user)[0]
+    return render(request, 'myaccount.html', {
+        'team': team
+    })

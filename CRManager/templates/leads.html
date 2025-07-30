@@ -5,43 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leads - CRManager</title>
     <style>
-        .flex {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Message styling (for Django messages) */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .messages li {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #333;
+            background-color: #d4edda; /* Example for success messages */
+            border: 1px solid #c3e6cb;
+        }
+        /* Add more specific classes for different message types if needed */
+
+        /* Lead list container */
+        .lead-list-container {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            overflow: hidden; /* Ensures rounded corners apply to children */
+        }
+
+        /* Header row for the lead list */
+        .lead-list-header {
             display: flex;
-        }
-        .justify-between {
             justify-content: space-between;
-            padding: 0 15px;
+            padding: 12px 20px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: bold;
+            color: #555;
         }
-        .flex p {
-            margin: 5px 0;
+
+        .lead-list-header p {
+            margin: 0;
+            flex: 1; /* Allows columns to take equal space */
+            text-align: left; /* Default alignment */
+        }
+
+        /* Adjust alignment for specific headers if needed */
+        .lead-list-header p:nth-child(2), /* Priority */
+        .lead-list-header p:nth-child(3) { /* Status */
+            text-align: center;
+        }
+
+        /* Individual lead row styling */
+        .lead-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center; /* Vertically aligns content */
+        }
+
+        .lead-row:last-child {
+            border-bottom: none; /* No border for the last item */
+        }
+
+        .lead-row:hover {
+            background-color: #fdfdfd;
+        }
+
+        .lead-row p {
+            margin: 0;
+            flex: 1; /* Ensures text aligns under headers */
+            text-align: left; /* Default alignment */
+        }
+        
+        /* Adjust alignment for specific columns if needed */
+        .lead-row p:nth-child(2), /* Priority */
+        .lead-row p:nth-child(3) { /* Status */
+            text-align: center;
+        }
+
+        .lead-row a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .lead-row a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        .no-leads-message {
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-style: italic;
+        }
+
+        .right-aligned-container {
+            text-align: right; /* Aligns content to the right */
+            margin-bottom: 20px; /* Just for spacing */
         }
     </style>
 </head>
 <body>
     <button><a href="{% url 'crmanager:home' %}">Home</a></button>
     <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
+    <div class="right-aligned-container">
     <button><a href="{% url 'crmanager:add_lead' %}">Nova Lead</a></button>
-    <h1>Lista de Leads</h1>
-    {% if messages %}
-        {% for message in messages %}
-            {{message}}
-        {% endfor %}
-    {% endif %}
-    <div class="flex justify-between">
-        <p>Nome:</p>
-        <p>Prioridade:</p>
-        <p>Status:</p>
     </div>
-    {% for lead in leads %}
-        <div class="flex justify-between">
-            <p>
-                <a href="{% url 'crmanager:leads_detail' lead.id %}">{{ lead.name }}</a>
-            </p>
-            <p>{{ lead.get_priority_display }}</p>
-            <p>{{ lead.get_status_display }}</p>
+
+    <h1>Lista de Leads</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="lead-list-container">
+        <div class="lead-list-header">
+            <p>Nome</p>
+            <p>Prioridade</p>
+            <p>Status</p>
         </div>
-    {% empty %}
-        <p style="padding: 15px; text-align: center;">Nenhum lead encontrado.</p>
-    {% endfor %}
+
+        {% for lead in leads %}
+            <div class="lead-row">
+                <p>
+                    <a href="{% url 'crmanager:leads_detail' lead.id %}">{{ lead.name }}</a>
+                </p>
+                <p>{{ lead.get_priority_display }}</p>
+                <p>{{ lead.get_status_display }}</p>
+            </div>
+        {% empty %}
+            <p class="no-leads-message">Nenhum lead encontrado.</p>
+        {% endfor %}
+    </div>
 </body>
 </html>

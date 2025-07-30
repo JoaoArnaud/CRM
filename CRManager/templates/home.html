@@ -58,12 +58,18 @@
         .lead-list li a:hover {
             text-decoration: underline;
         }
+        .right-aligned-container {
+            text-align: right; /* Aligns content to the right */
+            margin-bottom: 20px; /* Just for spacing */
+        }
     </style>
 </head>
 <body>
-    <button><a href="{% url 'logout' %}">Log Out</a></button>
     <button><a href="{% url 'crmanager:leads' %}">Leads</a></button>
     <a href="{% url 'client:clients' %}"><button>Clientes</button></a>
+    <div class="right-aligned-container">
+        <button><a href="{% url 'crmanager:myaccount' %}">Minha Conta</a></button>
+    </div>
     <h1>Bem-vindo, {{ user.username }}!</h1>
 
     <div class="content-container">
@@ -73,6 +79,8 @@
                 {%for lead in leads%}
                 <li>
                     {{lead.name}}
+                    <p>Status: {{lead.get_status_display}}</p>
+                    <p>Prioridade: {{lead.get_priority_display}}</p>
                     <a href="{% url 'crmanager:leads_detail' lead.pk %}">Mais detalhes...</a>
                 </li>
                 {%endfor%}
