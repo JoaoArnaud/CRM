@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from team.models import Team
+
 from .forms import AddLeadForm
 from .models import Lead
 
@@ -56,8 +58,10 @@ def add_lead(request):
     if request.method == 'POST':
         form = AddLeadForm(request.POST)
         if form.is_valid():
+            team = Team.objects.filter(created_by=request.user)[0]
             lead = form.save(commit=False)
             lead.created_by = request.user
+            lead.team = team
             lead.save()
 
             messages.success(request, 'Lead criada com sucesso! ✅')
@@ -74,6 +78,7 @@ def add_lead(request):
 @login_required
 def convert_to_client(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    team = Team.objects.filter(created_by=request.user)[0]
 
     client = Client.objects.create(
         name=lead.name,
@@ -81,7 +86,8 @@ def convert_to_client(request, pk):
         phone=lead.phone,
         service_type=lead.service_type,
         description=lead.description,
-        created_by=request.user
+        created_by=request.user,
+        team=team,
     )
 
     lead.converted_to_client = True

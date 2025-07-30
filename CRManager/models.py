@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from team.models import Team
 class Lead(models.Model):
     LOW = 'low'
     MEDIUM = 'medium'
@@ -66,6 +67,7 @@ class Lead(models.Model):
         (OTHER, 'Outro'),
     )
 
+    team = models.ForeignKey(Team, related_name='clients', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True, null=True)
@@ -79,6 +81,9 @@ class Lead(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     converted_to_client = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
