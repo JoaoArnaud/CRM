@@ -10,8 +10,20 @@
     <h1>Minha Conta</h1>
     <strong>Nome de usuário: </strong>{{request.user.username}}
     <br>
-    <strong>Time: </strong>{{ user.team }}
+    <strong>Time: </strong>{{ team.name }}
+    {%if team.created_by == request.user%}
+        <button><a href="{% url 'crmanager:team:edit_team' team.id %}">Editar</a></button>
+    {%endif%}
     <br>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+    <p></p>
     <button><a href="{% url 'logout' %}">Log Out</a></button>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 app_name = 'crmanager' # Define um namespace para suas URLs do CRM
@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.leads_delete, name='leads_delete'),
     path('<int:pk>/edit/', views.leads_edit, name='leads_edit'),
     path('<int:pk>/convert/', views.convert_to_client, name='convert_to_client'),
-    path('myaccount/', views.myaccount, name='myaccount')
+    path('myaccount/', views.myaccount, name='myaccount'),
+    path('teams/', include('team.urls')),
 ]
