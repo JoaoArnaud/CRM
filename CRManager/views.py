@@ -1,14 +1,13 @@
 # CRManager/views.py
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
+from client.models import Client
 from team.models import Team
 
 from .forms import AddLeadForm
 from .models import Lead
-
-from client.models import Client
 
 
 @login_required

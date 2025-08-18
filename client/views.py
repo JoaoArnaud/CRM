@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Client
-from .forms import AddClientForm
 from team.models import Team
+
+from .forms import AddClientForm
+from .models import Client
 
 
 @login_required

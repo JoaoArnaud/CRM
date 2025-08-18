@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http.response import HttpResponse
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as lg, logout as lt
+from django.contrib.auth import login as lg
+from django.contrib.auth import logout as lt
+from django.contrib.auth.models import User
+from django.http.response import HttpResponse
+from django.shortcuts import redirect, render
 
 from team.models import Team
 

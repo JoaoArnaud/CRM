@@ -1,4 +1,5 @@
 from django.urls import include, path
+
 from . import views
 
 app_name = "crmanager"  # Define um namespace para suas URLs do CRM
